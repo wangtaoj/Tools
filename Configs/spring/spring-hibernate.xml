@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+     	http://www.springframework.org/schema/tx/spring-tx.xsd">
+    
+   <!-- 1.数据库连接池配置 -->
+   <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+   		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+   		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/day24"></property>
+   		<property name="user" value="root"></property>
+   		<property name="password" value="wal961219"></property>
+   		<property name="initialPoolSize" value="3"></property>
+   		<property name="maxPoolSize" value="10"></property>
+   </bean> 
+   
+   <!--2.sessionFactory配置  -->
+   <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+   		<property name="dataSource" ref="dataSource"></property>
+   		
+   		<!-- hibernate其他配置 -->
+   		<property name="hibernateProperties">
+   			<props>
+   				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+     			<prop key="hibernate.show_sql">true</prop>
+     			<prop key="hibernate.hbm2ddl.auto">update</prop>
+   			</props>
+   		</property>
+   		
+   		<!-- 只需加载映射配置，hibernate主配置文件全都写到spring中了 -->
+   		<property name="mappingDirectoryLocations">
+   			<list>
+   				<value>classpath:cn/itcast/entity</value>
+   			</list>
+   		</property>
+   </bean>
+    
+    <!-- 事务相关配置 -->
+    <!-- 事务管理类,并且设置sessionFactory -->
+    <bean id="txManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <!-- 事务增强管理 -->
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+    	<tx:attributes>
+    		<tx:method name="find*" read-only="true"/>
+    		<tx:method name="*" read-only="false"/>
+    	</tx:attributes>
+    </tx:advice>
+    <!-- aop配置 -->
+    <aop:config>
+    	<aop:pointcut expression="execution(* cn.itcast.service.*.*(..))" id="pt"/>
+    	<aop:advisor advice-ref="txAdvice" pointcut-ref="pt"/>
+    </aop:config>
+</beans>
