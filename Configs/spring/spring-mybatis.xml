@@ -25,7 +25,7 @@
         <!-- 注入连接池 -->
         <property name="dataSource" ref="dataSource"/>
         <!--配置entity包,在实体类对应的mapper.xml里如果涉及写实体类名时，可以只写类名，而不用包名-->
-        <property name="typeAliasesPackage" value="com.waston.entity"/>
+        <property name="typeAliasesPackage" value="com.wangtao.entity"/>
         <!-- 加载mybatis主配置文件 -->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <!-- 加载mybatis映射文件 -->
@@ -56,7 +56,7 @@
      中增删改查语句的id
      -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.waston.dao"/>
+        <property name="basePackage" value="com.wangtao.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 
