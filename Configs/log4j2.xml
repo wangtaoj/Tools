@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+	<Appenders>
+		<!-- 控制台打印debug以上级别 -->
+		<Console name="STDOUT">
+			<PatternLayout>
+				<Pattern>%d{HH:mm:ss.SSS} %highlight{%-5p} [%t] [%c{10}] - %m%n</Pattern>
+			</PatternLayout>
+			<ThresholdFilter level="debug" />
+		</Console>
+
+		<!-- 只打印INFO级别的日志 -->
+		<RollingFile name="INFO-FILE" fileName="logs/info.log"
+			filePattern="logs/%d{yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%t] [%c{10}] - %m%n</Pattern>
+			</PatternLayout>
+			<!-- 只接受info级别的日志 -->
+			<Filters>
+			    <!-- warn以上拒绝, 以下级别交给下一个filter -->
+				<ThresholdFilter level="warn" onMatch="DENY"
+					onMismatch="NEUTRAL" />
+				<!-- info以上级别接受, 以下级别拒绝 -->
+				<ThresholdFilter level="info" onMatch="ACCEPT"
+					onMismatch="DENY" />
+			</Filters>
+			<SizeBasedTriggeringPolicy size="2MB" />
+		</RollingFile>
+
+		<!-- 打印warn以上级别的日志到error.log文件中 -->
+		<RollingFile name="WARN-FILE" fileName="logs/error.log"
+			filePattern="logs/%d{yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%t] [%c{10}] - %m%n</Pattern>
+			</PatternLayout>
+			<ThresholdFilter level="warn" />
+			<SizeBasedTriggeringPolicy size="2MB" />
+		</RollingFile>
+	</Appenders>
+
+	<Loggers>
+		<!-- 工程目录 -->
+		<Logger name="com.lonton" level="debug" additivity="false">
+			<AppenderRef ref="STDOUT" />
+			<Appender-ref ref="INFO-FILE" />
+			<Appender-ref ref="WARN-FILE" />
+		</Logger>
+
+		<Root level="info">
+			<AppenderRef ref="STDOUT" />
+			<Appender-ref ref="INFO-FILE" />
+			<Appender-ref ref="WARN-FILE" />
+		</Root>
+	</Loggers>
+</Configuration>  
