@@ -10,7 +10,7 @@
 		</Console>
 
 		<!-- 只打印INFO级别的日志 -->
-		<RollingFile name="INFO-FILE" fileName="logs/info.log"
+		<RollingFile name="INFO-FILE" fileName="logs/app.log"
 			filePattern="logs/%d{yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%t] [%c{10}] - %m%n</Pattern>
@@ -18,7 +18,7 @@
 			<!-- 只接受info级别的日志 -->
 			<Filters>
 			    <!-- warn以上拒绝, 以下级别交给下一个filter -->
-				<ThresholdFilter level="warn" onMatch="DENY"
+				<ThresholdFilter level="error" onMatch="DENY"
 					onMismatch="NEUTRAL" />
 				<!-- info以上级别接受, 以下级别拒绝 -->
 				<ThresholdFilter level="info" onMatch="ACCEPT"

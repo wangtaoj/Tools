@@ -5,7 +5,6 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -13,9 +12,7 @@
         http://www.springframework.org/schema/tx
      	http://www.springframework.org/schema/tx/spring-tx.xsd
      	http://www.springframework.org/schema/aop
-     	http://www.springframework.org/schema/aop/spring-aop.xsd
-     	http://www.springframework.org/schema/task
-     	http://www.springframework.org/schema/task/spring-task.xsd">
+     	http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 开启注解扫描 -->
     <context:component-scan base-package="com.waston">
