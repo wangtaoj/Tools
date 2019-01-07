@@ -1,0 +1,16 @@
+# IDEA
+.idea/
+*.iml
+out/
+
+
+# maven
+target/
+
+# java
+*.class
+*.jar
+*.war
+
+
+

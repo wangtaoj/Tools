@@ -8,16 +8,15 @@
 			</PatternLayout>
 			<ThresholdFilter level="debug" />
 		</Console>
-
-		<!-- 只打印INFO级别的日志 -->
+		
 		<RollingFile name="INFO-FILE" fileName="logs/app.log"
-			filePattern="logs/%d{yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log.gz">
+			filePattern="logs/%d{yyyy-MM}/info-%d{yyyy-MM-dd}-%i.app.gz">
 			<PatternLayout>
 				<Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%t] [%c{10}] - %m%n</Pattern>
 			</PatternLayout>
-			<!-- 只接受info级别的日志 -->
+			<!-- 只接受info, warn级别的日志 -->
 			<Filters>
-			    <!-- warn以上拒绝, 以下级别交给下一个filter -->
+			    <!-- error以上拒绝, 以下级别交给下一个filter -->
 				<ThresholdFilter level="error" onMatch="DENY"
 					onMismatch="NEUTRAL" />
 				<!-- info以上级别接受, 以下级别拒绝 -->
@@ -27,13 +26,13 @@
 			<SizeBasedTriggeringPolicy size="2MB" />
 		</RollingFile>
 
-		<!-- 打印warn以上级别的日志到error.log文件中 -->
-		<RollingFile name="WARN-FILE" fileName="logs/error.log"
+		<!-- 打印ERROR以上级别的日志到error.log文件中 -->
+		<RollingFile name="ERROR-FILE" fileName="logs/error.log"
 			filePattern="logs/%d{yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-5p] [%t] [%c{10}] - %m%n</Pattern>
 			</PatternLayout>
-			<ThresholdFilter level="warn" />
+			<ThresholdFilter level="error" />
 			<SizeBasedTriggeringPolicy size="2MB" />
 		</RollingFile>
 	</Appenders>
@@ -43,13 +42,13 @@
 		<Logger name="com.lonton" level="debug" additivity="false">
 			<AppenderRef ref="STDOUT" />
 			<Appender-ref ref="INFO-FILE" />
-			<Appender-ref ref="WARN-FILE" />
+			<Appender-ref ref="ERROR-FILE" />
 		</Logger>
 
 		<Root level="info">
 			<AppenderRef ref="STDOUT" />
 			<Appender-ref ref="INFO-FILE" />
-			<Appender-ref ref="WARN-FILE" />
+			<Appender-ref ref="ERROR-FILE" />
 		</Root>
 	</Loggers>
 </Configuration>  

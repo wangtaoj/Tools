@@ -61,7 +61,7 @@
      中增删改查语句的id
      -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.wangtao.dao"/>
+        <property name="basePackage" value="com.XXXXXXXXXXXX.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     </bean>
 

@@ -60,7 +60,9 @@ public class JsonUtil {
 	 */
 	public static String objectToJson(Object object){
 		try {
-			return objectMapper.writeValueAsString(object);
+			if(object != null) {
+                return objectMapper.writeValueAsString(object);
+            }
 		} catch (JsonProcessingException e) {
 			logger.error("parse object to json error", e);
 		}
