@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+	<Appenders>
+		<!-- 控制台打印debug以上级别 -->
+		<Console name="STDOUT">
+			<PatternLayout>
+				<Pattern>%d{HH:mm:ss.SSS} %highlight{%-5p} [%t] [%c{10}] - %m%n</Pattern>
+			</PatternLayout>
+			<ThresholdFilter level="debug" />
+		</Console>
+	</Appenders>
+
+	<Loggers>
+		<!-- 工程目录 -->
+		<Logger name="com.wangtao" level="debug" additivity="false">
+			<AppenderRef ref="STDOUT" />
+		</Logger>
+
+		<Root level="info">
+			<AppenderRef ref="STDOUT" />
+		</Root>
+	</Loggers>
+</Configuration>  
