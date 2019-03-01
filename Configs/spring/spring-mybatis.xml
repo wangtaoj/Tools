@@ -8,61 +8,85 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <context:property-placeholder location="classpath:db.properties" file-encoding="UTF-8"/>
+  <context:property-placeholder location="classpath:db.properties" file-encoding="UTF-8"/>
 
-    <!-- 数据库连接池配置 -->
-    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-        <property name="driverClass" value="${db.driverClass}"/>
-        <property name="jdbcUrl" value="${db.jdbcUrl}"/>
-        <property name="user" value="${db.user}"/>
-        <property name="password" value="${db.password}"/>
-    </bean>
+  <!-- 数据库连接池配置(C3P0) -->
+  <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+    <property name="driverClass" value="${db.driverClass}"/>
+    <property name="jdbcUrl" value="${db.jdbcUrl}"/>
+    <property name="user" value="${db.user}"/>
+    <property name="password" value="${db.password}"/>
+  </bean>
 
-    <!-- sqlSessionFactory配置，sqlSession工厂
-         class是sqlSessionFactory的一个实现类,位于mybatis-spring包下，因为sqlSessionFactory是接口不能实例化
-    -->
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <!-- 注入连接池 -->
-        <property name="dataSource" ref="dataSource"/>
-        <!--配置entity包,在实体类对应的mapper.xml里如果涉及写实体类名时，可以只写类名，而不用包名-->
-        <property name="typeAliasesPackage" value="com.wangtao.entity"/>
-       	 <!--主配置 -->
-        <property name="configuration">
-            <bean class="org.apache.ibatis.session.Configuration">
-                <!--下划线转驼峰-->
-                <property name="mapUnderscoreToCamelCase" value="true"/>
-            </bean>
-        </property>
-        <!-- 加载mybatis映射文件 -->
-        <property name="mapperLocations" value="classpath:mappers/*.xml"/>
-        <!-- 分页插件 -->
-        <property name="plugins">
-            <array>
-                <bean class="com.github.pagehelper.PageHelper">
-                    <property name="properties">
-                        <value>
-                            dialect=mysql
-                            reasonable=true
-                        </value>
-                    </property>
-                </bean>
-            </array>
-        </property>
+  <!-- 数据库连接池配置 -->
+  <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+    <!-- 数据库驱动 -->
+    <property name="driverClassName" value="${db.driverClass}"/>
+    <!-- 数据库地址 -->
+    <property name="url" value="${db.url}"/>
+    <!-- 数据库用户名 -->
+    <property name="username" value="${db.username}"/>
+    <!-- 数据库密码 -->
+    <property name="password" value="${db.password}"/>
+    <!-- 最大连接数量 -->
+    <property name="maxActive" value="10"/>
+    <!-- 最小连接数量 -->
+    <property name="minIdle" value="1"/>
+    <!-- 初始化时建立连接的个数 -->
+    <property name="initialSize" value="1"/>
+    <!-- 获取连接等待的超时时间(毫秒) -->
+    <property name="maxWait" value="60000"/>
+    <!-- 获取连接时要不要对该连接进行有效性校验 -->
+    <property name="testOnBorrow" value="false"/>
+    <!-- 归还连接时要不要对该连接进行有效性校验 -->
+    <property name="testOnReturn" value="false"/>
+  </bean>
 
-    </bean>
+  <!-- sqlSessionFactory配置，sqlSession工厂
+       class是sqlSessionFactory的一个实现类,位于mybatis-spring包下，因为sqlSessionFactory是接口不能实例化
+  -->
+  <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <!-- 注入连接池 -->
+    <property name="dataSource" ref="dataSource"/>
+    <!--配置entity包,在实体类对应的mapper.xml里如果涉及写实体类名时，可以只写类名，而不用包名-->
+    <property name="typeAliasesPackage" value="com.wangtao.entity"/>
+    <!--主配置 -->
+    <property name="configuration">
+      <bean class="org.apache.ibatis.session.Configuration">
+        <!--下划线转驼峰-->
+        <property name="mapUnderscoreToCamelCase" value="true"/>
+      </bean>
+    </property>
+    <!-- 加载mybatis映射文件 -->
+    <property name="mapperLocations" value="classpath:mappers/*.xml"/>
+    <!-- 分页插件 -->
+    <property name="plugins">
+      <array>
+        <bean class="com.github.pagehelper.PageHelper">
+          <property name="properties">
+            <value>
+              dialect=mysql
+              reasonable=true
+            </value>
+          </property>
+        </bean>
+      </array>
+    </property>
 
-    <!-- 配置 转换器，对于在basePackage设置的包（包括子包）下的接口类，
-    如果接口类的全类名在Mapper.xml文件中的命名空间一致，
-     将被转换成spring的BEAN，在调用 的地方通过@Autowired方式将可以注入接口实例
-     工作原理:
-     1.会把basePackage中的包下面的接口生成子类对象，我们只需在service中通过@Autowired
-          把该子类对象注入到service中的dao属性
-     2.把接口的全类名当做mapper文件的名称空间,对应的抽象方法名字当做mapper文件
-     中增删改查语句的id
-     -->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.XXXXXXXXXXXX.dao"/>
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-    </bean>
+  </bean>
+
+  <!-- 配置 转换器，对于在basePackage设置的包（包括子包）下的接口类，
+  如果接口类的全类名在Mapper.xml文件中的命名空间一致，
+   将被转换成spring的BEAN，在调用 的地方通过@Autowired方式将可以注入接口实例
+   工作原理:
+   1.会把basePackage中的包下面的接口生成子类对象，我们只需在service中通过@Autowired
+        把该子类对象注入到service中的dao属性
+   2.把接口的全类名当做mapper文件的名称空间,对应的抽象方法名字当做mapper文件
+   中增删改查语句的id
+   -->
+  <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="com.XXXXXXXXXXXX.dao"/>
+    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+  </bean>
 
 </beans>
