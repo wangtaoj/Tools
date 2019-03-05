@@ -83,6 +83,13 @@
       <version>4.1.0</version>
     </dependency>
 
+    <!-- RabbitMQ -->
+    <dependency>
+      <groupId>com.rabbitmq</groupId>
+      <artifactId>amqp-client</artifactId>
+      <version>5.5.0</version>
+    </dependency>
+
     <!-- Servlet相关依赖 -->
     <dependency>
       <groupId>taglibs</groupId>
