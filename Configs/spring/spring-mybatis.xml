@@ -42,9 +42,7 @@
     <property name="testOnReturn" value="false"/>
   </bean>
 
-  <!-- sqlSessionFactory配置，sqlSession工厂
-       class是sqlSessionFactory的一个实现类,位于mybatis-spring包下，因为sqlSessionFactory是接口不能实例化
-  -->
+  <!-- 创建SqlSessionFactory的Bean对象, 从容器中拿到的是SqlSessionFactory实例, 而不是SqlSessionFactoryBean -->
   <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
     <!-- 注入连接池 -->
     <property name="dataSource" ref="dataSource"/>
@@ -62,10 +60,20 @@
     <!-- 分页插件 -->
     <property name="plugins">
       <array>
+        <!-- 4.X -->
         <bean class="com.github.pagehelper.PageHelper">
           <property name="properties">
             <value>
               dialect=mysql
+              reasonable=true
+            </value>
+          </property>
+        </bean>
+        <!-- 5.X -->
+        <bean class="com.github.pagehelper.PageInterceptor">
+          <property name="properties">
+            <value>
+              helpDialect=mysql
               reasonable=true
             </value>
           </property>
