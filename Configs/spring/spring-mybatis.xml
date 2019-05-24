@@ -18,7 +18,7 @@
     <property name="password" value="${db.password}"/>
   </bean>
 
-  <!-- 数据库连接池配置 -->
+  <!-- 数据库连接池配置(Druid) -->
   <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
     <!-- 数据库驱动 -->
     <property name="driverClassName" value="${db.driverClass}"/>

@@ -1,24 +1,39 @@
 server:
-  port: 8080
   tomcat:
     uri-encoding: utf-8
 
 spring:
+  servlet:
+    multipart:
+      maxFileSize: 40MB
+      maxRequestSize: 40MB
+
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1/test_db?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: 123456
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-  thymeleaf:
-    cache: false
+    druid:
+      url: jdbc:mysql://127.0.0.1/test?useUnicode=true&characterEncoding=utf-8
+      password: 123456
+      username: root
+      # 初始化时建立连接的个数
+      initial-size: 5
+      # 最大连接数量
+      max-active: 20
+      # 最小连接数量
+      min-idle: 5
+      # 获取连接等待的超时时间(毫秒)
+      max-wait: 60000
+      # 获取连接时要不要对该连接进行有效性校验
+      test-on-borrow: false
+      # 归还连接时要不要对该连接进行有效性校验
+      test-on-return: false
 
 mybatis:
   #mapper-locations: classpath:mappers/*.xml
   configuration:
       map-underscore-to-camel-case: true
+
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+
 
 
