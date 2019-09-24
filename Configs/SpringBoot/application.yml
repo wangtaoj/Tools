@@ -11,8 +11,8 @@ spring:
   datasource:
     druid:
       url: jdbc:mysql://127.0.0.1/test?useUnicode=true&characterEncoding=utf-8
-      password: 123456
       username: root
+      password: 123456
       # 初始化时建立连接的个数
       initial-size: 5
       # 最大连接数量
