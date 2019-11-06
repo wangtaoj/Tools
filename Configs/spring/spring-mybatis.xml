@@ -83,15 +83,7 @@
 
   </bean>
 
-  <!-- 配置 转换器，对于在basePackage设置的包（包括子包）下的接口类，
-  如果接口类的全类名在Mapper.xml文件中的命名空间一致，
-   将被转换成spring的BEAN，在调用 的地方通过@Autowired方式将可以注入接口实例
-   工作原理:
-   1.会把basePackage中的包下面的接口生成子类对象，我们只需在service中通过@Autowired
-        把该子类对象注入到service中的dao属性
-   2.把接口的全类名当做mapper文件的名称空间,对应的抽象方法名字当做mapper文件
-   中增删改查语句的id
-   -->
+  <!-- 配置MyBatis接口扫描 -->
   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
     <property name="basePackage" value="com.XXXXXXXXXXXX.dao"/>
     <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
