@@ -41,7 +41,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.11</version>
+            <version>1.2.0</version>
         </dependency>
         <!--logback默认不打印spring日志, 支持spring的日志所需要的jar包 -->
 		<dependency>
