@@ -33,7 +33,7 @@ spring:
       # 也是test-while-idle的依据, 如果申请的连接空闲时间大于该参数, 需要检测连接是否有效
       # 60s
       time-between-eviction-runs-millis: 60000
-      # 连接保持空闲而不被驱逐的最小时间, 30s
+      # 连接保持空闲而不被驱逐的最小时间, 5分钟
       min-evictable-idle-time-millis: 300000
       # 慢查询
       filter:
